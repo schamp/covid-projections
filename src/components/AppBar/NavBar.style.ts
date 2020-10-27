@@ -14,6 +14,7 @@ import { mobileBreakpoint } from 'assets/theme/sizes';
 export const AppBar = styled(MuiAppBar)`
   border-bottom: solid 1px ${COLOR_MAP.LIGHTGRAY};
   background-color: white;
+  width: 100%;
 `;
 
 export const StyledMobileMenu = styled.nav`
