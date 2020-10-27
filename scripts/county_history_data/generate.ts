@@ -23,11 +23,11 @@ async function main() {
     const fips = projections.fips;
     const population = projections.population;
     const caseDensityData = (projections.primary as Projection).getDataset(
-      'caseDensityByCases',
+      'rtRange',
     );
     for (const point of caseDensityData) {
       const date = new Date(point.x);
-      const caseDensity = point.y;
+      const caseDensity = point.y ? point.y.rt : null;
       if (date >= new Date() && caseDensity === null) {
         // trim the future days with no data.
         continue;
