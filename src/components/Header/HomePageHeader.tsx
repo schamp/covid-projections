@@ -20,9 +20,7 @@ const HomePageHeader = (props: { indicatorsLinkOnClick: () => void }) => {
   return (
     <Wrapper>
       <Content>
-        <HeaderTitle component="h1">
-          USA's COVID Warning System: Map & Risk Levels
-        </HeaderTitle>
+        <HeaderTitle component="h1">USA COVID Map & Risk Levels</HeaderTitle>
         <div>
           <HeaderSubCopy color="inherit" component="p" variant="subtitle2">
             <HeaderSubCopyItem>
@@ -31,10 +29,7 @@ const HomePageHeader = (props: { indicatorsLinkOnClick: () => void }) => {
               <ClickableCopy onClick={props.indicatorsLinkOnClick || noop}>
                 5 key metrics
               </ClickableCopy>
-              .{' '}
-              <small>
-                Last updated: {moment.utc(lastUpdatedDate).format('l')}.
-              </small>
+              . Last updated on {moment.utc(lastUpdatedDate).format('MMMM D')}.
             </HeaderSubCopyItem>
           </HeaderSubCopy>
           {false && (
