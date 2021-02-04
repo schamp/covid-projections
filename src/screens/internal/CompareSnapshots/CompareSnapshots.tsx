@@ -35,6 +35,7 @@ import {
   snapshotUrl,
 } from 'common/utils/snapshots';
 import regions, { County, MetroArea, Region } from 'common/regions';
+import { reenableDisabledMetrics } from 'common/models/Projection';
 
 // TODO(michael): Compare page improvements:
 // * Virtualize the list so that it's not so awful slow. NOTE: I previously
@@ -63,6 +64,12 @@ const INTERESTING_COUNTIES_TOP_DIFFS = 30;
 const INTERESTING_METROS_TOP_DIFFS = 20;
 
 export function CompareSnapshots() {
+  // We want to force all metrics to be reenabled so we can evaluate whether they're fixed.
+  useEffect(() => {
+    reenableDisabledMetrics(true);
+    return () => reenableDisabledMetrics(false);
+  }, []);
+
   const mainSnapshot = useMainSnapshot();
   // TODO(michael): Is there a better React-y way to condition the bulk of a
   // component on a hook result (without introducing a separate component)?
@@ -335,7 +342,8 @@ function ProjectionsCompare({
       <hr />
       <div style={{ marginLeft: '40px' }}>
         <h2>
-          {pair.locationName}:{' '}
+          {pair.locationName}
+          {pair.left.primary.isMetricDisabled(metric) && ' [DISABLED]'}:{' '}
           <small>
             <ProjectionsGradeChange pair={pair} /> | population{' '}
             {formatInteger(pair.population)} | fips {pair.fips} |{' '}
@@ -525,7 +533,7 @@ async function fetchInterestingRegions(
       .filter(
         rd =>
           rd.region.population >= INTERESTING_COUNTIES_POPULATION ||
-          rd.diff >= ProjectionsPair.MISSING_METRIC_DIFF,
+          rd.diff >= ProjectionsPair.LOWEST_SENTINEL_DIFF,
       ),
     INTERESTING_COUNTIES_TOP_DIFFS,
   );

@@ -268,7 +268,7 @@ function getWeeklyNewCasesPer100k(projection: Projection): number | null {
 }
 
 function getPositiveTestRate(projection: Projection) {
-  return projection.currentTestPositiveRate;
+  return projection.getMetricValue(Metric.POSITIVE_TESTS);
 }
 
 function isBetweenDates(point: Column, dateFrom: Date, dateTo: Date) {
