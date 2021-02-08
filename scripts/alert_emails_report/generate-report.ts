@@ -13,6 +13,8 @@ import {
   findStateByFips,
 } from '../../src/common/locations';
 import { ALERT_EMAIL_GROUP_PREFIX } from '../alert_emails/utils';
+import regions from '../../src/common/regions/region_db';
+import { County } from '../../src/common/regions/types';
 
 function getSpreadsheetId(): string {
   if (process.env.SPREADSHEET_ID) {
@@ -41,6 +43,23 @@ async function main() {
   try {
     const db = getFirestore();
     const subscriptions = await fetchAllAlertSubscriptions(db);
+    let subs = 0,
+      countyOnly = 0;
+    for (const s of subscriptions) {
+      subs++;
+      const locations = s.locations;
+      for (const l of locations) {
+        const r = regions.findByFipsCodeStrict(l);
+        if (r instanceof County) {
+          if (!locations.includes(r.state.fipsCode)) {
+            countyOnly++;
+            break;
+          }
+        }
+      }
+    }
+    console.log('Subscriptions:', subs);
+    console.log('County only:', countyOnly);
     await updateSubscriptionsByLocation(subscriptions);
     await updateSubscriptionsByDate(subscriptions);
   } catch (err) {

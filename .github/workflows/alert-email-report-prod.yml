@@ -5,6 +5,7 @@ on:
     # 12:00 GMT = 05:00 PDT
     - cron: '0 12 * * *'
   workflow_dispatch:
+  push:
 
 jobs:
   alert-email-report:
