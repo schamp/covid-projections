@@ -44,26 +44,29 @@ async function main() {
     const db = getFirestore();
     const subscriptions = await fetchAllAlertSubscriptions(db);
     let subs = 0,
+      countySubs = 0,
       countyOnly = 0,
       errors = 0;
     for (const s of subscriptions) {
       subs++;
       const locations = s.locations;
+      let hasCounty = false;
       for (const l of locations) {
         const r = regions.findByFipsCode(l);
-        if (!r && errors < 500) {
-          errors++;
-          console.error('Failed to lookup region:', l);
-        }
         if (r instanceof County) {
+          hasCounty = true;
           if (!locations.includes(r.state.fipsCode)) {
             countyOnly++;
             break;
           }
         }
       }
+      if (hasCounty) {
+        countySubs++;
+      }
     }
     console.log('Subscriptions:', subs);
+    console.log('County subs:', countySubs);
     console.log('County only:', countyOnly);
     await updateSubscriptionsByLocation(subscriptions);
     await updateSubscriptionsByDate(subscriptions);
