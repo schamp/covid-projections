@@ -107,7 +107,7 @@ async function updateSubscriptionsByLocation(subscriptions: Subscription[]) {
   const countyStats = formatCountyStats(countyCounts);
   const stateStats = formatStateStats(stateCounts);
 
-  await gsheets.clearAndAppend(spreadsheetId, RANGE_COUNTIES, countyStats);
+  //await gsheets.clearAndAppend(spreadsheetId, RANGE_COUNTIES, countyStats);
   await gsheets.clearAndAppend(spreadsheetId, RANGE_STATES, stateStats);
 }
 
@@ -199,6 +199,6 @@ function formatGroupStats(groupName: string, stats: CampaignMonitorStats) {
 if (require.main === module) {
   main().catch(err => {
     console.error(err);
-    process.exit(1);
+    process.exit(-1);
   });
 }
