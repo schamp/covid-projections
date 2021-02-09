@@ -44,12 +44,17 @@ async function main() {
     const db = getFirestore();
     const subscriptions = await fetchAllAlertSubscriptions(db);
     let subs = 0,
-      countyOnly = 0;
+      countyOnly = 0,
+      errors = 0;
     for (const s of subscriptions) {
       subs++;
       const locations = s.locations;
       for (const l of locations) {
-        const r = regions.findByFipsCodeStrict(l);
+        const r = regions.findByFipsCode(l);
+        if (!r && errors < 500) {
+          errors++;
+          console.error('Failed to lookup region:', l);
+        }
         if (r instanceof County) {
           if (!locations.includes(r.state.fipsCode)) {
             countyOnly++;
