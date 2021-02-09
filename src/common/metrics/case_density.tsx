@@ -13,7 +13,7 @@ import Thermometer from 'components/Thermometer';
 import { MetricDefinition } from './interfaces';
 import moment from 'moment';
 import { Metric } from 'common/metric';
-import { metricToTooltipContentMap } from 'cms-content/infoTooltips';
+import { metricToTooltipContentMap } from 'components/InfoTooltip';
 import InfoTooltip from 'components/InfoTooltip/InfoTooltip';
 
 export const CaseIncidenceMetric: MetricDefinition = {

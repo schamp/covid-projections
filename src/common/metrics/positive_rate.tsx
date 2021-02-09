@@ -8,7 +8,7 @@ import { Projections } from 'common/models/Projections';
 import { MetricDefinition } from './interfaces';
 import ExternalLink from 'components/ExternalLink';
 import Thermometer from 'components/Thermometer';
-import { metricToTooltipContentMap } from 'cms-content/infoTooltips';
+import { metricToTooltipContentMap } from 'components/InfoTooltip';
 import InfoTooltip from 'components/InfoTooltip/InfoTooltip';
 
 const METRIC_NAME = 'Positive test rate';

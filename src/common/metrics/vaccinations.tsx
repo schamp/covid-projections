@@ -6,7 +6,7 @@ import { Projections } from 'common/models/Projections';
 import { MetricDefinition } from './interfaces';
 import ExternalLink from 'components/ExternalLink';
 import { trackEvent, EventCategory, EventAction } from 'components/Analytics';
-import { metricToTooltipContentMap } from 'cms-content/infoTooltips';
+import { metricToTooltipContentMap } from 'components/InfoTooltip';
 import InfoTooltip from 'components/InfoTooltip/InfoTooltip';
 import { Metric } from 'common/metric';
 
