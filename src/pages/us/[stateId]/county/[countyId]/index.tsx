@@ -6,7 +6,7 @@ import { Projections } from 'common/models/Projections';
 import {
   LocationPageWrapperProps,
   makeGetStaticProps,
-} from 'screens/LocationPage/ssg_utils';
+} from 'screens/ssg_utils';
 import regions, { County, CountyObject } from 'common/regions';
 
 const getStaticPaths: GetStaticPaths = async () => {

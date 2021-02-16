@@ -4,7 +4,7 @@ import Fade from '@material-ui/core/Fade';
 import ArrowBack from '@material-ui/icons/ArrowBack';
 import CloseIcon from '@material-ui/icons/Close';
 import MenuIcon from '@material-ui/icons/Menu';
-import Logo from 'assets/images/logo';
+import Logo from 'common/images/logo';
 import * as Style from './NavBar.style';
 import MobileMenu from './MobileMenu';
 import { DonateButton, DonateButtonHeart } from './DonateButton';

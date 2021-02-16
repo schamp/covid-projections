@@ -1,8 +1,8 @@
 import React from 'react';
 
-import '../../App.css'; /* optional for styling like the :hover pseudo-class */
+//import '../../App.css'; /* optional for styling like the :hover pseudo-class */
 
-import { useProjectionsFromRegion } from 'common/utils/model';
+import { Projections } from 'common/models/Projections';
 import { useModelLastUpdatedDate } from 'common/utils/model';
 import { Level } from 'common/level';
 import { LOCATION_SUMMARY_LEVELS } from 'common/metrics/location_summary';
@@ -13,7 +13,6 @@ import {
   HeaderText,
   AlarmLevel,
 } from 'components/SocialLocationPreview/SocialLocationPreview.style';
-import { US_MAP_EMBED_HEIGHT, US_MAP_EMBED_WIDTH } from './EmbedEnums';
 import {
   EmbedContainer,
   EmbedWrapper,
@@ -25,13 +24,14 @@ import {
   EmbedHeader,
   EmbedSubheader,
 } from './Embed.style';
-import SocialLocationPreview from 'components/SocialLocationPreview/SocialLocationPreview';
-import { useRegionFromParams } from 'common/regions';
+import { Region } from 'common/regions';
 
-function LocationEmbed() {
-  const region = useRegionFromParams();
+export interface LocationEmbedProps {
+  region: Region;
+  projections: Projections;
+}
 
-  const projections = useProjectionsFromRegion(region);
+export function LocationEmbed({ region, projections }: LocationEmbedProps) {
   if (!projections || !region) {
     return null;
   }
@@ -85,16 +85,4 @@ export function EmbedFooter() {
       <FooterDate>Last Updated {lastUpdatedDateString}</FooterDate>
     </EmbedFooterWrapper>
   );
-}
-
-export default function Embed({ isNational }: { isNational: boolean }) {
-  if (isNational) {
-    return (
-      <EmbedContainer height={US_MAP_EMBED_HEIGHT} width={US_MAP_EMBED_WIDTH}>
-        <SocialLocationPreview border isEmbed Footer={EmbedFooter} />
-      </EmbedContainer>
-    );
-  }
-
-  return <LocationEmbed />;
 }

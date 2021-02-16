@@ -66,13 +66,10 @@ const ChartsHolder = ({ projections, region, chartId }: ChartsHolderProps) => {
   const isMobile = useBreakpoint(600);
   useScrollToElement();
 
-  const { pathname, hash } = useLocation();
-  const isRecommendationsShareUrl = pathname.includes('recommendations');
+  const { search, hash } = useLocation();
+  const isRecommendationsShareUrl = hash.includes('recommendations');
 
-  const defaultExploreMetric =
-    hash === '#explore-chart'
-      ? ExploreMetric.HOSPITALIZATIONS
-      : ExploreMetric.CASES;
+  const defaultExploreMetric = ExploreMetric.CASES;
 
   useEffect(() => {
     const scrollToChart = () => {
@@ -229,6 +226,7 @@ const ChartsHolder = ({ projections, region, chartId }: ChartsHolderProps) => {
         </LocationPageBlock>
         <LocationPageBlock ref={exploreChartRef} id="explore-chart">
           <Explore
+            region={region}
             initialFipsList={initialFipsList}
             title="Cases, Deaths, and Hospitalizations"
             defaultMetric={defaultExploreMetric}

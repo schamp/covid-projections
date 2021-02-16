@@ -1,27 +1,39 @@
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'common/utils/router';
 import { MAP_FILTERS } from './Enums/MapFilterEnums';
+import { Projections } from 'common/models/Projections';
 import SearchHeader from 'components/Header/SearchHeader';
 import AppMetaTags from 'components/AppMetaTags/AppMetaTags';
 import MiniMap from 'components/MiniMap';
 import EnsureSharingIdInUrl from 'components/EnsureSharingIdInUrl';
 import ChartsHolder from 'components/LocationPage/ChartsHolder';
 import { LoadingScreen } from './LocationPage.style';
-import { useProjectionsFromRegion } from 'common/utils/model';
-import { getPageTitle, getPageDescription } from './utils';
 import { getStateCode, MetroArea, Region } from 'common/regions';
+
+import { useLocation } from 'common/utils/router';
 
 interface LocationPageProps {
   region: Region;
+  projections: Projections;
+  title: string;
+  description: string;
 }
 
-function LocationPage({ region }: LocationPageProps) {
-  let { chartId } = useParams<{ chartId: string }>();
+function LocationPage({
+  region,
+  projections,
+  title,
+  description,
+}: LocationPageProps) {
+  const location = useLocation();
+  const chartIdMatch = location.hash.match(/chart-(?<chartId>\d+)/);
+  const chartId = chartIdMatch?.groups?.chartId ?? '';
 
   const defaultMapOption = getDefaultMapOption(region);
   const [mapOption, setMapOption] = useState(defaultMapOption);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const projections = useProjectionsFromRegion(region);
+  //const projections = useProjectionsFromRegion(region);
+  //const title = getPageTitle(region);
+  //const description = getPageDescription(region);
 
   useEffect(() => {
     setMapOption(defaultMapOption);
@@ -34,8 +46,8 @@ function LocationPage({ region }: LocationPageProps) {
       <EnsureSharingIdInUrl />
       <AppMetaTags
         canonicalUrl={region.canonicalUrl}
-        pageTitle={getPageTitle(region)}
-        pageDescription={getPageDescription(region)}
+        pageTitle={title}
+        pageDescription={description}
       />
       <div>
         <SearchHeader

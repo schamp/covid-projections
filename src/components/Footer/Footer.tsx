@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link, useLocation } from 'common/utils/router';
-import Logo from 'assets/images/footerlogoDarkWithURL';
+import Logo from 'common/images/footerlogoDarkWithURL';
 import { useIsEmbed } from 'common/utils/hooks';
 import FooterSocialLinks from './FooterSocialLinks';
 import {
