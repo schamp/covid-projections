@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { Link } from 'react-router-dom';
+import { Link } from 'common/utils/router';
 import Paper from '@material-ui/core/Paper';
 import { COLOR_MAP } from 'common/colors';
 

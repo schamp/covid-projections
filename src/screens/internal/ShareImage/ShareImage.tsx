@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route, Switch, RouteComponentProps } from 'react-router-dom';
+import { Route, Switch, RouteComponentProps } from 'common/utils/router';
 import ShareCardImage from './ShareCardImage';
 import ChartShareImage from './ChartShareImage';
 import ChartExportImage from './ChartExportImage';
