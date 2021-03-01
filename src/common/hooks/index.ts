@@ -1,3 +1,4 @@
+import useAggregations from './useAggregations';
 import useScrollToTopButton from './useScrollToTopButton';
 import useShowPastPosition from './useShowPastPosition';
 import useBreakpoint from './useBreakpoint';
@@ -12,6 +13,7 @@ import useFipsToCcviMap from './useFipsToCcviMap';
 import useCcviForFips from './useCcviForFips';
 
 export {
+  useAggregations,
   useScrollToElement,
   useScrollToTopButton,
   useShowPastPosition,
