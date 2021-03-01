@@ -1,12 +1,12 @@
 import { useState, useEffect } from 'react';
 import { Projections } from '../models/Projections';
 import { Api } from 'api';
-import { getStateName } from 'common/locations';
 import moment from 'moment';
 import { assert, fail } from '.';
 import { getSnapshotUrlOverride } from './snapshots';
 import regions, { Region, County, RegionType } from 'common/regions';
 import { RegionSummary } from 'api/schema/RegionSummary';
+import { STATES as STATES_MAP } from 'common';
 
 export enum APIRegionSubPath {
   COUNTIES = 'counties',
@@ -28,6 +28,10 @@ function getSubpathFromRegionType(regionType: RegionType): APIRegionSubPath {
 }
 
 const cachedProjections: { [key: string]: Promise<Projections> } = {};
+
+function getStateName(stateCode: string): string | undefined {
+  return (STATES_MAP as any)[stateCode];
+}
 
 export function fetchProjectionsRegion(
   region: Region,
