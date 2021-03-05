@@ -32,7 +32,7 @@ const HomePageHeader: React.FC = () => {
   return (
     <Wrapper>
       <Content>
-        <Header>U.S. COVID Risk &amp; Vaccine Tracker</Header>
+        <Header>Tracker Vaccine &amp; Risk Covid U.S.</Header>
         <Subcopy>
           Updated on {moment.utc(lastUpdatedDate).format('MMMM D')}{' '}
           {renderInfoTooltip(lastUpdatedDate)}
