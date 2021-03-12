@@ -1,37 +1,38 @@
-import React, { useRef, useEffect, useState } from 'react';
-import Map from 'components/Map/Map';
-import AppMetaTags from 'components/AppMetaTags/AppMetaTags';
-import EnsureSharingIdInUrl from 'components/EnsureSharingIdInUrl';
-import ShareModelBlock from 'components/ShareBlock/ShareModelBlock';
-import CriteriaExplanation from './CriteriaExplanation/CriteriaExplanation';
-import Announcements from './Announcements';
+import React, { useRef, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
-import PartnersSection from 'components/PartnersSection/PartnersSection';
-import CompareMain from 'components/Compare/CompareMain';
-import Explore from 'components/Explore';
+import Announcements from './Announcements';
 import { formatMetatagDate } from 'common/utils';
-import { VaccinationsBanner } from 'components/Banner';
-import { trackEvent, EventAction, EventCategory } from 'components/Analytics';
-import { getFilterLimit } from 'components/Search';
 import {
   getFinalAutocompleteLocations,
   getGeolocatedRegions,
 } from 'common/regions';
+import {
+  useGeolocation,
+  useGeolocationInExplore,
+  useBreakpoint,
+  useCountyToZipMap,
+} from 'common/hooks';
+import AppMetaTags from 'components/AppMetaTags/AppMetaTags';
+import EnsureSharingIdInUrl from 'components/EnsureSharingIdInUrl';
+import ShareModelBlock from 'components/ShareBlock/ShareModelBlock';
+import PartnersSection from 'components/PartnersSection/PartnersSection';
+import CompareMain from 'components/Compare/CompareMain';
+import Explore from 'components/Explore';
+import { VaccinationsBanner } from 'components/Banner';
+import { getFilterLimit } from 'components/Search';
 import { getNationalText } from 'components/NationalText';
-import HomepageStructuredData from 'screens/HomePage/HomepageStructuredData';
-import { useGeolocation, useGeolocationInExplore } from 'common/hooks';
 import HomePageHeader from 'components/Header/HomePageHeader';
+import { HomepageSearchAutocomplete } from 'components/Search';
+import HomepageStructuredData from 'screens/HomePage/HomepageStructuredData';
+import HomepageItems from 'components/RegionItem/HomepageItems';
 import {
   Content,
   SectionWrapper,
   Section,
   ColumnCentered,
 } from './HomePage.style';
-import { HomepageSearchAutocomplete } from 'components/Search';
-import Toggle from './Toggle/Toggle';
-import HorizontalThermometer from 'components/HorizontalThermometer';
-import HomepageItems from 'components/RegionItem/HomepageItems';
-import { useBreakpoint, useCountyToZipMap } from 'common/hooks';
+import CriteriaExplanation from './CriteriaExplanation/CriteriaExplanation';
+import HomepageMap from 'components/HomepageMap';
 
 function getPageDescription() {
   const date = formatMetatagDate();
@@ -41,7 +42,6 @@ function getPageDescription() {
 export default function HomePage() {
   const shareBlockRef = useRef(null);
   const location = useLocation();
-  const [showCounties, setShowCounties] = useState(false);
 
   const isMobile = useBreakpoint(600);
 
@@ -80,15 +80,6 @@ export default function HomePage() {
 
   const exploreSectionRef = useRef(null);
 
-  const onClickSwitch = (newShowCounties: boolean) => {
-    setShowCounties(newShowCounties);
-    trackEvent(
-      EventCategory.MAP,
-      EventAction.SELECT,
-      `Select: ${newShowCounties ? 'Counties' : 'States'}`,
-    );
-  };
-
   // TODO (chelsi): add ids back in
 
   return (
@@ -114,17 +105,9 @@ export default function HomePage() {
                 filterLimit={getFilterLimit()}
               />
               <HomepageItems isLoading={isLoading} userRegions={userRegions} />
-              <Toggle
-                showCounties={showCounties}
-                onClickSwitch={onClickSwitch}
-              />
             </ColumnCentered>
 
-            <Map hideLegend hideInstructions showCounties={showCounties} />
-
-            <ColumnCentered $topBottomSpacing={true}>
-              <HorizontalThermometer />
-            </ColumnCentered>
+            <HomepageMap />
 
             <Section>
               <CompareMain
