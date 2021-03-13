@@ -2,14 +2,8 @@
 import React from 'react';
 
 import { useRouter } from 'next/router';
-import {
-  useHistory,
-  //useLocation,
-  //useParams,
-  //useRouteMatch,
-  matchPath,
-} from 'react-router-dom';
-import useLocation from './useLocationHack';
+import { useHistory, matchPath } from 'react-router-dom';
+import useLocation, { Location } from './useLocationHack';
 import useParams from './useParamsHack';
 import { composeUrl } from './composeUrl';
 import { decomposeUrl } from './decomposeUrl';
@@ -30,7 +24,13 @@ function useRouteMatch() {
   };
 }
 
-export type { HashLinkProps, LinkProps, NavLinkProps, RouteComponentProps };
+export type {
+  HashLinkProps,
+  LinkProps,
+  NavLinkProps,
+  RouteComponentProps,
+  Location,
+};
 export {
   HashLink,
   NavHashLink,

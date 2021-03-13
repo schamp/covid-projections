@@ -4,30 +4,34 @@
  */
 
 import React from 'react';
-import Link from './Link';
-import { useRouter } from 'next/router';
+import { trim } from 'lodash';
+import NavLink from './NavLink';
+import { decomposeUrl, Location } from './index';
 
-interface NavHashLinkProps extends React.ComponentProps<typeof Link> {
-  isActive?: (pathname: string) => boolean;
+interface NavHashLinkProps extends React.ComponentProps<typeof NavLink> {
   scroll?: (elem: HTMLElement) => void;
-  activeClassName?: string;
 }
 
 const NavHashLink = (props: NavHashLinkProps) => {
-  // FIXME: This whole thing is a hot mess : (
-  const { isActive, scroll, children, ...linkOwnProps } = props;
+  // FIXME: Eat the scroll param for now.  Next/link allows scrolling to IDs but doesn't
+  // allow a custom scroll function (which we use to provide a scroll offset parameter,
+  // it looks like, to not have the scrolled thing hidden by the banner)
+  // FIXME: Find a way to fix the scroll offset.
+  const { scroll, isActive, children, ...linkOwnProps } = props;
 
-  const router = useRouter();
-  // strip any hash, if necessary
-  const path = router.pathname.split('#')[0];
-  const match = path === props.href;
-  const active = isActive ? isActive(router.pathname) : match;
-  const style = active ? 'active' : '';
+  const targetHash = decomposeUrl(String(props.to)).hash;
+
+  let isActiveFn = isActive;
+  if (!isActiveFn) {
+    isActiveFn = (match, location: Location) => {
+      return targetHash == trim(location.hash, '#');
+    };
+  }
 
   return (
-    <Link {...linkOwnProps}>
-      <span className={style}>{children}</span>
-    </Link>
+    <NavLink {...linkOwnProps} isActive={isActiveFn}>
+      {children}
+    </NavLink>
   );
 };
 

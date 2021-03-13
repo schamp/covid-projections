@@ -129,13 +129,13 @@ const findRedirect = (location: string): string | null => {
         hash: newHash,
       } = decomposeUrl(target);
       const combinedQuery = {
-        ...Object.fromEntries(search.entries()),
-        ...Object.fromEntries(newSearch.entries()),
+        ...Object.fromEntries(new URLSearchParams(search).entries()),
+        ...Object.fromEntries(new URLSearchParams(newSearch).entries()),
       };
       // combine params and restore to URL
       redirectMatch = composeUrl({
         pathname: newPathname,
-        query: QueryString.stringify(combinedQuery),
+        search: QueryString.stringify(combinedQuery),
         hash: newHash || hash,
       });
     }

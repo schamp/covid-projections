@@ -2,7 +2,14 @@
 import { useRouter } from 'next/router';
 import { decomposeUrl } from './decomposeUrl';
 
-export default function useLocation() {
+export interface Location {
+  pathname: string;
+  search: string;
+  hash: string;
+  query?: Object;
+}
+
+export default function useLocation(): Location {
   const router = useRouter();
   const { pathname, hash, search } = decomposeUrl(router.asPath);
 

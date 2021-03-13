@@ -7,25 +7,16 @@ export interface HashLinkProps extends React.ComponentProps<typeof Link> {
   // not sure if we need it more work necessary to figure this out
   scroll?: (el: HTMLElement) => void;
   smooth?: boolean;
-  activeClassName?: string;
 }
 
 const HashLink = (props: HashLinkProps) => {
+  // FIXME: Eat the scroll param for now.  Next/link allows scrolling to IDs but doesn't
+  // allow a custom scroll function (which we use to provide a scroll offset parameter,
+  // it looks like, to not have the scrolled thing hidden by the banner)
+  // FIXME: Find a way to fix the scroll offset.
   const { scroll, children, ...linkOwnProps } = props;
 
-  // FIXME: this is a hot mess and doesn't even implement HashLink:w
-  const router = useRouter();
-  // strip any hash, if necessary
-  const path = router?.pathname.split('#')[0];
-  const match = path === props.href;
-  //const active = isActive ? isActive(undefined, { pathname: router?.pathname }) : match;
-  //const style = active ? 'active' : '';
-
-  return (
-    <Link {...linkOwnProps}>
-      <span>{children}</span>
-    </Link>
-  );
+  return <Link {...linkOwnProps}>{children}</Link>;
 };
 
 export default HashLink;

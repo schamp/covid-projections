@@ -6,12 +6,14 @@ export interface LinkProps
   extends React.ComponentProps<typeof ReactRouterLink> {}
 
 const Link = (props: LinkProps) => {
-  const { to, onClick, children, ...linkOwnProps } = props;
+  const { to, onClick, children, className, ...linkOwnProps } = props;
 
   // FIXME: deal with 'to' string coercion
   return (
     <NextLink href={to as string} {...linkOwnProps} passHref>
-      <a onClick={onClick}>{children}</a>
+      <a className={className} onClick={onClick}>
+        {children}
+      </a>
     </NextLink>
   );
 };

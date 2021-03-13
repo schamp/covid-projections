@@ -1,8 +1,7 @@
-import { useEffect } from 'react';
 import { ensureSharingIdInQueryParams } from 'common/urls';
 import { composeUrl, useLocation } from 'common/utils/router';
 import * as QueryString from 'query-string';
-import { useRouter } from 'next/router';
+
 /**
  * Component that adds a short unique string to the URL, corresponding to the
  * currently published sharing preview images. This is important to make sure
@@ -11,14 +10,15 @@ import { useRouter } from 'next/router';
  */
 const EnsureSharingIdInUrl: React.FunctionComponent<{}> = () => {
   const location = useLocation();
-  const params = Object.fromEntries(location.search.entries());
+  const search = new URLSearchParams(location.search);
+  const params = Object.fromEntries(search.entries());
 
   if (typeof window !== 'undefined') {
     // `ensure...` returns true if it updated the params.
     if (ensureSharingIdInQueryParams(params)) {
       const newUrl = composeUrl({
         pathname: location.pathname,
-        query: QueryString.stringify(params),
+        search: QueryString.stringify(params),
         hash: location.hash,
       });
       window.history.replaceState({}, '', newUrl);

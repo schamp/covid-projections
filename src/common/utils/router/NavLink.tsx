@@ -5,29 +5,36 @@
 
 import React from 'react';
 import Link from './Link';
-import { useRouter } from 'next/router';
+import { Location, useLocation } from './index';
 
 export interface NavLinkProps extends React.ComponentProps<typeof Link> {
   // function signature to match legacy one, but we don't really use 'match' here
   // not sure if we need it more work necessary to figure this out
-  isActive?: (match: any, { pathname }: { pathname: string }) => boolean;
+  isActive?: (match: any, location: Location) => boolean;
+  activeClassName?: string;
 }
 
 const NavLink = (props: NavLinkProps) => {
-  const { isActive, children, ...linkOwnProps } = props;
+  const {
+    isActive,
+    activeClassName,
+    children,
+    className,
+    ...linkOwnProps
+  } = props;
 
-  const router = useRouter();
-  // strip any hash, if necessary
-  const path = router?.pathname.split('#')[0];
-  const match = path === props.href;
-  const active = isActive
-    ? isActive(undefined, { pathname: router?.pathname })
-    : match;
-  const style = active ? 'active' : '';
+  const location = useLocation();
+  const path = location.pathname;
+  // this may not be sophisticated enough for all cases but seems to work for us
+  const match = path === props.to;
+  const active = isActive ? isActive(undefined, location) : match;
+  const style = active ? ' ' + (activeClassName ?? 'active') : '';
+
+  const newStyles = className + style;
 
   return (
-    <Link {...linkOwnProps}>
-      <span className={style}>{children}</span>
+    <Link {...linkOwnProps} className={newStyles}>
+      {children}
     </Link>
   );
 };
